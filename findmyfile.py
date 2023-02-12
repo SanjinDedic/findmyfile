@@ -9,7 +9,6 @@ import numpy as np
 
 
 class File:
-    """"""
     def __init__(self, path, extension=".txt"):
         self.path = path
         self.name = os.path.basename(self.path)
