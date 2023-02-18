@@ -6,7 +6,7 @@ from pptx import Presentation
 import argparse
 import pandas as pd
 import numpy as np
-
+ 
 
 class File:
     def __init__(self, path, extension=".txt"):
@@ -150,8 +150,6 @@ class FilesDB():
             if file.search(keyword, keyword2):
                 results.append(file.path + file.name)
         return results
-
-    
 
 
 if __name__ == "__main__":
