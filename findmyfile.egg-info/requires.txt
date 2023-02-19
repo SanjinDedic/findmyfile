@@ -1,0 +1,3 @@
+fitz
+python-docx
+python-pptx

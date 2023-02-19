@@ -1,0 +1,7 @@
+LICENCE.txt
+setup.py
+findmyfile.egg-info/PKG-INFO
+findmyfile.egg-info/SOURCES.txt
+findmyfile.egg-info/dependency_links.txt
+findmyfile.egg-info/requires.txt
+findmyfile.egg-info/top_level.txt

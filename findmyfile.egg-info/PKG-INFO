@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: findmyfile
+Version: 0.1
+Summary: This package allows you to search a directory for documents that match keywords
+Home-page: https://github.com/Sanjin84/findmyfile
+Download-URL: https://github.com/Sanjin84/findmyfile/archive/refs/tags/v_01.tar.gz
+Author: Sanjin Dedic
+Author-email: sanjindedic8@gmail.com
+License: MIT
+Keywords: file search,find file,search directory
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+License-File: LICENCE.txt
