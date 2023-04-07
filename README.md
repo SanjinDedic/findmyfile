@@ -20,6 +20,7 @@ from findmyfile import FilesDB
 
 db = FilesDB(path="your_directory_path")
 db.search(keyword="keyword1", keyword2="keyword2")
+```
 
 Replace your_directory_path, keyword1, and keyword2 with the desired directory path and keywords you wish to search for.
 
