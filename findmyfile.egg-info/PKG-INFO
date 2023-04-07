@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: findmyfile
-Version: 0.1
+Version: 0.2.3
 Summary: This package allows you to search a directory for documents that match keywords
 Home-page: https://github.com/Sanjin84/findmyfile
 Download-URL: https://github.com/Sanjin84/findmyfile/archive/refs/tags/v_01.tar.gz

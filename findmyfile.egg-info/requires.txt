@@ -1,3 +1,5 @@
-fitz
-python-docx
+pymupdf
+pandas
+numpy
 python-pptx
+python-docx

@@ -1,7 +1,11 @@
 LICENCE.txt
 setup.py
+findmyfile/__init__.py
+findmyfile/findmyfile.py
 findmyfile.egg-info/PKG-INFO
 findmyfile.egg-info/SOURCES.txt
 findmyfile.egg-info/dependency_links.txt
+findmyfile.egg-info/desktop.ini
+findmyfile.egg-info/entry_points.txt
 findmyfile.egg-info/requires.txt
 findmyfile.egg-info/top_level.txt

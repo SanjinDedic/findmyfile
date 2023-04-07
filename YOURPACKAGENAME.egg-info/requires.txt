@@ -1,5 +1,0 @@
-fitz
-pandas
-numpy
-python-docx
-python-pptx
