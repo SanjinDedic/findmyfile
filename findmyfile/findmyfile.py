@@ -5,13 +5,10 @@ from docx import Document
 from pptx import Presentation
 import argparse
 import pandas as pd
-
+import numpy as np
+ 
 
 class File:
-    """
-    The base File class represents a generic file object. It holds the path, name, extension and data of the file.
-    It also provides methods to print the file data and search for keywords within the file data.
-    """
     def __init__(self, path, extension=".txt"):
         self.path = path
         self.name = os.path.basename(self.path)
@@ -20,14 +17,9 @@ class File:
         self.data = ""
 
     def print(self):
-        """Prints the file data."""
         print(self.data)
 
     def search(self, keyword, keyword2=None):
-        """
-        Searches the file data for the given keyword(s). Returns True if the keyword(s) are found,
-        otherwise returns False.
-        """
         info = self.data.lower()
         if keyword2:
             return keyword.lower() in info and keyword2.lower() in info
@@ -36,16 +28,11 @@ class File:
 
 
 class PptxFile(File):
-    """
-    The PptxFile class represents a PowerPoint (.pptx) file. It inherits from the File class and
-    overrides the read() method to read PowerPoint files.
-    """
     def __init__(self, path, extension=".pptx"):
         super().__init__(path, extension)
         self.read()
 
     def read(self):
-        """Reads the PowerPoint file and extracts the text."""
         try:
             data=''
             prs = Presentation(self.path)
@@ -57,16 +44,11 @@ class PptxFile(File):
 
 
 class DocxFile(File):
-    """
-    The DocxFile class represents a Word (.docx) file. It inherits from the File class and
-    overrides the read() method to read Word files.
-    """
     def __init__(self, path, extension=".docx"):
         super().__init__(path, extension)
         self.read()
 
     def read(self):
-        """Reads the Word file and extracts the text."""
         try:
             data=''
             doc = Document(self.path)
@@ -78,54 +60,37 @@ class DocxFile(File):
 
 
 class XlsxFile(File):
-    """
-    The XlsxFile class represents an Excel (.xlsx) file. It inherits from the File class and
-    overrides the read() method to read Excel files.
-    """
     def __init__(self, path, extension=".xlsx"):
         super().__init__(path, extension)
         self.read()
 
     def read(self):
-        """Reads the Excel file and converts the data to a string."""
         try:
-            data=''
-            df = pd.read_excel(self.path)
-            data = df.to_string()
-            self.data = data
+            df = pd.read_excel(self.path, engine='openpyxl')
+            self.data = df.to_string()
         except:
             self.readable = False
 
 
 class TxtFile(File):
-    """
-    The TxtFile class represents a text (.txt) file. It inherits from the File class and
-    overrides the read() method to read text files.
-    """
     def __init__(self, path, extension=".txt"):
         super().__init__(path, extension)
         self.read()
 
     def read(self):
-        """Reads the text file and stores the data as a string."""
         try:
             with open(self.path, 'r', encoding="utf8") as f:
-                self.data = f.read()
+                self.data=f.read()
         except:
             self.readable = False
 
 
 class PdfFile(File):
-    """
-    The PdfFile class represents a PDF (.pdf) file. It inherits from the File class and
-    overrides the read() method to read PDF files.
-    """
     def __init__(self, path, extension=".pdf"):
         super().__init__(path, extension)
         self.read()
 
     def read(self):
-        """Reads the PDF file and extracts the text."""
         try:
             doc = fitz.open(self.path)
             text = ""
@@ -135,26 +100,6 @@ class PdfFile(File):
         except:
             self.readable = False
 
-class ProgressBar():
-    def __init__(self, total, prefix='', suffix='', decimals=1, length=50, fill='█', print_end="\r"):
-        self.total = total
-        self.prefix = prefix
-        self.suffix = suffix
-        self.decimals = decimals
-        self.length = length
-        self.fill = fill
-        self.print_end = print_end
-        self.iteration = 0
-
-    def print_progress(self, iteration):
-        self.iteration = iteration
-        percent = ("{0:." + str(self.decimals) + "f}").format(100 * (self.iteration / float(self.total)))
-        filled_length = int(self.length * self.iteration // self.total)
-        bar = self.fill * filled_length + '-' * (self.length - filled_length)
-        print(f'\r{self.prefix} |{bar}| {percent}% {self.suffix}', end=self.print_end)
-        if self.iteration == self.total:
-            print()
-
 
 class FilesDB():
     def __init__(self, path=os.getcwd()):
@@ -162,57 +107,24 @@ class FilesDB():
         self.files = []
         self.add_file_data()
 
-    def count_files(self):
-        """
-        Counts the total number of supported files in the given path.
-        """
-        file_count = 0
-        for root, dirs, files in os.walk(self.path, topdown=False):
-            for file in files:
-                if file.endswith(".pptx") or file.endswith(".docx") or file.endswith(".xlsx") or file.endswith(".pdf") or file.endswith(".txt"):
-                    file_count += 1
-        return file_count
-
-
     def add_file_data(self):
-        """
-        Adds file data to the database by creating appropriate file objects for each file type.
-        """
-        total_files = self.count_files()
-        progress = ProgressBar(total_files, prefix='Loading Files:', suffix='Complete', length=50)
-        loaded_files = 0
-
         for root, dirs, files in os.walk(self.path, topdown=False):
             for file in files:
                 if file.endswith(".pptx"):
                     pptx_file = PptxFile(os.path.join(root, file))
-                    self.files.append(pptx_file)
-                    loaded_files += 1
-                    progress.print_progress(loaded_files)
-
+                    self.files.append(pptx_file) #will it be faster if I instantiate inside the append()?
                 if file.endswith(".docx"):
                     docx_file = DocxFile(os.path.join(root, file))
                     self.files.append(docx_file)
-                    loaded_files += 1
-                    progress.print_progress(loaded_files)
-
                 if file.endswith(".xlsx"):
                     docx_file = XlsxFile(os.path.join(root, file))
                     self.files.append(docx_file)
-                    loaded_files += 1
-                    progress.print_progress(loaded_files)
-
                 if file.endswith(".pdf"):
                     txt_file = PdfFile(os.path.join(root, file))
                     self.files.append(txt_file)
-                    loaded_files += 1
-                    progress.print_progress(loaded_files)
-
                 if file.endswith(".txt"):
                     txt_file = TxtFile(os.path.join(root, file))
                     self.files.append(txt_file)
-                    loaded_files += 1
-                    progress.print_progress(loaded_files)
                 
 
     def search(self, keyword, keyword2=None):
@@ -238,6 +150,7 @@ class FilesDB():
             if file.search(keyword, keyword2):
                 results.append(file.path + file.name)
         return results
+
 
 if __name__ == "__main__":
     db = FilesDB()
