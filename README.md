@@ -1,4 +1,4 @@
-# File Processing Tool 
+# Cross Platform File System Search
 
 This project consists of a series of Python classes that can be used to process, search, and display information from different file types (PowerPoint, Word, Excel, PDF, and Text) present in a given directory. 
 
