@@ -1,2 +1,5 @@
+no_comment.py
 test_folder/
 excel_test/
+TEMP/
+__pycache__/
