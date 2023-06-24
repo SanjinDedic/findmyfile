@@ -169,10 +169,9 @@ class FilesDB():
         file_count = 0
         for root, dirs, files in os.walk(self.path, topdown=False):
             for file in files:
-                if file.endswith(".pptx") or file.endswith(".docx") or file.endswith(".xlsx") or file.endswith(".pdf") or file.endswith(".txt"):
+                if file.endswith((".pptx", ".docx", ".xlsx", ".pdf", ".txt")):
                     file_count += 1
         return file_count
-
 
     def add_file_data(self):
         """
@@ -182,62 +181,22 @@ class FilesDB():
         progress = ProgressBar(total_files, prefix='Loading Files:', suffix='Complete', length=50)
         loaded_files = 0
 
+        readers = {'pptx': PptxFile,
+                   'docx': DocxFile,
+                   'xlsx': XlsxFile,
+                   'pdf': PdfFile,
+                   'txt': TxtFile
+                   }
+
         for root, dirs, files in os.walk(self.path, topdown=False):
             for file in files:
-                if file.endswith(".pptx"):
-                    pptx_file = PptxFile(os.path.join(root, file))
-                    self.files.append(pptx_file)
+                ext = os.path.splitext(file)[-1].lstrip('.')
+                if ext in readers:
+                    data_file = readers[ext](os.path.join(root, file)) 
+                    self.files.append(data_file)
                     loaded_files += 1
                     progress.print_progress(loaded_files)
 
-                if file.endswith(".docx"):
-                    docx_file = DocxFile(os.path.join(root, file))
-                    self.files.append(docx_file)
-                    loaded_files += 1
-                    progress.print_progress(loaded_files)
-
-                if file.endswith(".xlsx"):
-                    docx_file = XlsxFile(os.path.join(root, file))
-                    self.files.append(docx_file)
-                    loaded_files += 1
-                    progress.print_progress(loaded_files)
-
-                if file.endswith(".pdf"):
-                    txt_file = PdfFile(os.path.join(root, file))
-                    self.files.append(txt_file)
-                    loaded_files += 1
-                    progress.print_progress(loaded_files)
-
-                if file.endswith(".txt"):
-                    txt_file = TxtFile(os.path.join(root, file))
-                    self.files.append(txt_file)
-                    loaded_files += 1
-                    progress.print_progress(loaded_files)
-                
-
-    def search(self, keyword, keyword2=None):
-        counter = 0
-        if keyword2:
-            print("Files matching keywords: ", keyword, keyword2)
-        else:
-            print("Files matching keyword: ", keyword)
-        for file in self.files:
-            counter += 1
-            if file.search(keyword, keyword2):
-                print(file.name)
-        print("\nFiles not readable:")
-        for file in self.files:
-            if file.readable == False:
-                print(file.name)
-        print('Files searched:', counter,'\n' )
-
-
-    def get_matching_files(self, keyword, keyword2=None):
-        results = []
-        for file in self.files:
-            if file.search(keyword, keyword2):
-                results.append(file.path + file.name)
-        return results
 
 if __name__ == "__main__":
     db = FilesDB()
