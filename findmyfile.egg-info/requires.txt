@@ -1,5 +1,6 @@
-pymupdf
-pandas
-numpy
-python-pptx
+PyMuPDF
 python-docx
+python-pptx
+pandas
+openpyxl
+xlrd

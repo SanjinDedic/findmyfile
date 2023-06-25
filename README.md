@@ -1,51 +1,105 @@
-# Cross Platform File System Search
+# FMF (File My File)
 
-This project consists of a series of Python classes that can be used to process, search, and display information from different file types (PowerPoint, Word, Excel, PDF, and Text) present in a given directory. 
+FMF is a powerful file management system that reads and searches text within files in various formats including PPTX, DOCX, XLSX, PDF, and TXT. It traverses the given directory and its sub-directories and reads the content of the supported files. It provides functionality to search for one or more keywords across all files.
 
-This tool has been designed to explore a specified directory, read the data from the files present in the directory, and provide a method to search within the file content. It also maintains a count of files that were unreadable due to any issues.
+---
+
+## Usage
+
+### As a Library
+
+FMF can be imported into your project as a library, and its classes can be used independently. Below are some usage examples:
+
+**Example 1:** Reading a specific .docx file.
+
+```python
+from fmf import DocxFile
+
+file = DocxFile('path/to/your/docxfile.docx')
+file.read()
+file.print()  # Prints first 100 characters of the file
+```
+
+**Example 2:** Searching keywords in a directory
+
+```python
+from fmf import FilesDB
+
+db = FilesDB('path/to/directory')
+db.search('keyword1', 'keyword2')
+```
+
+### As a Script
+
+You can also run FMF as a standalone script. Here's how you can do it:
+
+**Example 1:** Reading and searching files in the current directory
+
+```bash
+python fmf.py -w keyword1 keyword2
+```
+
+**Example 2:** Reading and searching files in a specific directory
+
+```bash
+python fmf.py -path "path/to/directory" -w keyword1 keyword2
+```
+
+---
+
+## Classes and Methods
+
+**File**: The base class for all file types.
+
+- **`create(path, extension)`**: A classmethod to create a new File object.
+
+- **`print(chars=100)`**: Prints the first `chars` characters of the file's data.
+
+- **`search_all(*keywords)`**: Returns True if all the given keywords are in the file's data.
+
+- **`search_any(*keywords)`**: Returns True if any of the given keywords are in the file's data.
+
+**PptxFile, DocxFile, XlsxFile, TxtFile, PdfFile**: Inherit from File and override the read method for their specific file type.
+
+**ProgressBar**: A class to visualize the progress of loading files.
+
+- **`print_progress(iteration)`**: Prints the progress bar at the given iteration.
+
+**FilesDB**: A class to manage a collection of File objects.
+
+- **`count_files()`**: Returns the count of all supported files in the path.
+
+- **`add_file_data()`**: Adds File objects for all supported files in the path.
+
+- **`search(*keywords)`**: Searches for keywords in all files and prints the names of files that contain all keywords.
+
+---
+
+## Command Line Arguments
+
+- `-path`, `--source_path`: Takes the directory path as input. Default is the current directory.
+
+- `-w`, `--words`: Takes any number of text patterns as input. Multiple keywords should be separated by space.
+
+- `save`: Saves a log file in a folder.
+
+- `verbose`: Shows the text found in the file.
+
+---
 
 ## Dependencies
 
-The following Python packages are used in this project:
+The FMF script requires the following Python libraries:
 
 - os
 - sys
 - fitz (PyMuPDF)
-- python-docx
-- python-pptx
+- docx
+- pptx
 - argparse
 - pandas
 
-Please make sure these packages are installed. If not, use the package manager [pip](https://pip.pypa.io/en/stable/) to install them.
-
-```bash
-pip install PyMuPDF python-docx python-pptx pandas
-```
-
-## Classes
-
-The project comprises several classes:
-
-1. **File**: This base class represents a generic file object. It holds the path, name, extension, and data of the file. It also provides methods to print the file data and search for keywords within the file data. The `read` method of this class should be overridden by each subclass to handle specific file types.
-
-2. **PptxFile, DocxFile, XlsxFile, TxtFile, PdfFile**: These classes represent specific file types (PowerPoint, Word, Excel, Text, and PDF files, respectively). Each of them inherits from the base File class and overrides the `read` method to handle the specific file type.
-
-3. **ProgressBar**: This class provides a simple progress bar which can be used to visualize the progress of long running operations.
-
-4. **FilesDB**: This class represents a database of files. It explores a given directory path and creates an instance of the appropriate class for each supported file type (pptx, docx, xlsx, pdf, txt) it finds. It provides a method to search for keywords across all files in the database.
-
-## Usage
-
-This project can be utilized as a library in your project or as a standalone script. The usage would depend on the specific requirements of your project. 
-
-An example of searching for keywords would be:
-
-```python
-fdb = FilesDB('your/directory/path')
-fdb.search('your', 'keywords')
-```
-
-This will print the names of the files which contain all the keywords.
+Make sure all dependencies are installed to successfully run the script.
 
 ## Contributions
 

@@ -1,2 +1,2 @@
 [console_scripts]
-findmyfile = findmyfile.findmyfile:FilesDB
+fmf = findmyfile.main:main
