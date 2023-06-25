@@ -1,5 +1,4 @@
 import os
-import sys
 import fitz
 from docx import Document
 from pptx import Presentation
@@ -100,9 +99,9 @@ class XlsxFile(File):
             df = pd.read_excel(self.path)
             data = df.to_string()
             self.data = data
-        except:
+        except Exception as e:
+            print(f"Failed to read Excel file: {self.path}. Error: {e}")
             self.readable = False
-
 
 class TxtFile(File):
     """
@@ -228,16 +227,16 @@ class FilesDB():
             for file in self.files:
                 counter += 1
                 if file.search_all(*keywords):
-                    print(file.name)
+                    #print name up to 30 chars then at 32 char print '|path: ' followed by path
+                    print(f'{file.name[:36]:<36} | path: {file.path}')
             print("\nFiles not readable:")
             for file in self.files:
                 if file.readable == False:
-                    print(file.name)
+                    print(f'{file.name[:36]:<36} | path: {file.path}')
             print('Files searched:', counter, '\n')
         else:
             # returns a dictionary where key is file.name and value is file.data
             return {file.name: file.data for file in self.files if file.search_all(*keywords)}
-
 
 def main():
     # Add your main script here

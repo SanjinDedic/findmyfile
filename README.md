@@ -1,6 +1,22 @@
-# FMF (File My File)
+# FMF (Find My File)
 
 FMF is a powerful file management system that reads and searches text within files in various formats including PPTX, DOCX, XLSX, PDF, and TXT. It traverses the given directory and its sub-directories and reads the content of the supported files. It provides functionality to search for one or more keywords across all files.
+
+---
+
+## Installation
+
+You can install FMF directly from the Python Package Index using pip. Open a terminal and run the following command:
+
+```bash
+pip install findmyfile
+```
+
+Please ensure that you have `pip` installed and that your Python environment is correctly set up.
+
+After successful installation, you can use FMF as a library in your project or as a CLI command. 
+
+You can find the findmyfile project on PyPi here: [findmyfile](https://pypi.org/project/findmyfile)
 
 ---
 
@@ -29,21 +45,33 @@ db = FilesDB('path/to/directory')
 db.search('keyword1', 'keyword2')
 ```
 
-### As a Script
+Sure, here is a reworded version:
 
-You can also run FMF as a standalone script. Here's how you can do it:
+### As a CLI Command
 
-**Example 1:** Reading and searching files in the current directory
+After installation, you can directly use the `fmf` command in your terminal. Here are some usage examples:
 
-```bash
-python fmf.py -w keyword1 keyword2
-```
+**Example 1:** Searching within files in the current directory
 
-**Example 2:** Reading and searching files in a specific directory
+To search for keywords within the files of your current directory, use the following format:
 
 ```bash
-python fmf.py -path "path/to/directory" -w keyword1 keyword2
+fmf -w keyword1 keyword2
 ```
+
+This command will search for `keyword1` and `keyword2` within the files of the directory you're currently in.
+
+**Example 2:** Searching within files in a specific directory
+
+If you want to search for keywords within a specific directory, include the `-path` argument followed by the path to the directory. Here's the format:
+
+```bash
+fmf -path "/path/to/directory" -w keyword1 keyword2
+```
+
+Replace `/path/to/directory` with the path to your desired directory. This command will then search for `keyword1` and `keyword2` within the files of the specified directory.
+
+Please note that `fmf` does not search in subdirectories. If you want to search in a subdirectory, you need to specify it in the `-path` argument.
 
 ---
 
