@@ -1,6 +1,6 @@
 # FMF (Find My File)
 
-FMF is a powerful file management system that reads and searches text within files in various formats including PPTX, DOCX, XLSX, PDF, and TXT. It traverses the given directory and its sub-directories and reads the content of the supported files. It provides functionality to search for one or more keywords across all files.
+FMF is a lightweight file search system that reads and searches text within files in various formats including PPTX, DOCX, XLSX, PDF, and TXT. It traverses the given directory and its sub-directories and reads the content of the supported files. It provides functionality to search for one or more keywords across all files.
 
 ---
 
