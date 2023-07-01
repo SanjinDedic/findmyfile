@@ -134,5 +134,4 @@ Make sure all dependencies are installed to successfully run the script.
 Contributions are always welcome! Please read the contribution guidelines first.
 
 ## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+This project is licensed under the [MIT Licence](https://choosealicense.com/licenses/mit/).
