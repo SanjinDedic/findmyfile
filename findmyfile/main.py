@@ -19,10 +19,6 @@ class File:
         self.readable = True
         self.data = ""
 
-    @classmethod
-    def create(cls, path, extension):
-        return cls(path, extension)
-
     def print(self, chars=100):
         """Prints the file data."""
         print("------------------------------------------------")
@@ -64,7 +60,8 @@ class PptxFile(File):
                 shape, "text")]
             data = ' '.join(values)
             self.data = data
-        except:
+        except Exception as e:
+            print(f"Failed to read PptxFile: {self.path}. Error: {e}")
             self.readable = False
 
 
@@ -82,7 +79,8 @@ class DocxFile(File):
             for para in doc.paragraphs:
                 data += '\n' + para.text
             self.data = data
-        except:
+        except Exception as e:
+            print(f"Failed to read Docx file: {self.path}. Error: {e}")
             self.readable = False
 
 
@@ -118,6 +116,22 @@ class TxtFile(File):
             self.readable = False
 
 
+class PyFile(File):
+    """
+    The PyFile class represents a Python (.py) file. It inherits from the File class and
+    overrides the read() method to read Python files.
+    """
+
+    def read(self):
+        """Reads the Python file and stores the data as a string."""
+        try:
+            with open(self.path, 'r', encoding="utf8") as f:
+                self.data = f.read()
+        except Exception as e:
+            print(f"Failed to read PyFile: {self.path}. Error: {e}")
+            self.readable = False
+
+
 class PdfFile(File):
     """
     The PdfFile class represents a PDF (.pdf) file. It inherits from the File class and
@@ -132,7 +146,8 @@ class PdfFile(File):
             for page in doc:
                 text += page.get_text()
             self.data = text
-        except:
+        except Exception as e:
+            print(f"Failed to read PdfFile: {self.path}. Error: {e}")
             self.readable = False
 
 
@@ -186,7 +201,7 @@ class FilesDB():
         file_count = 0
         for root, dirs, files in os.walk(self.path, topdown=False):
             for file in files:
-                if file.endswith((".pptx", ".docx", ".xlsx", ".pdf", ".txt")):
+                if file.endswith((".pptx", ".docx", ".xlsx", ".pdf", ".txt", ".py")):
                     file_count += 1
         return file_count
 
@@ -203,7 +218,8 @@ class FilesDB():
                    'docx': DocxFile,
                    'xlsx': XlsxFile,
                    'pdf': PdfFile,
-                   'txt': TxtFile
+                   'txt': TxtFile,
+                   'py': PyFile
                    }
 
         for root, dirs, files in os.walk(self.path, topdown=False):

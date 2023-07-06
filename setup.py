@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 setup(
     name='findmyfile',         # How you named your package folder (MyLib)
     packages=find_packages(),   # Chose the same as "name"
-    version='0.3.0',      # Start with a small number and increase it with every change you make
+    version='0.3.1',      # Start with a small number and increase it with every change you make
     # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     license='MIT',
     # Give a short description about your library
